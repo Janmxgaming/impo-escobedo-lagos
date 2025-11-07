@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/impo-escobedo-lagos/static/css/main.e23e6065.css",
+    "main.js": "/impo-escobedo-lagos/static/js/main.2ce5a683.js",
+    "static/js/453.288b1486.chunk.js": "/impo-escobedo-lagos/static/js/453.288b1486.chunk.js",
+    "index.html": "/impo-escobedo-lagos/index.html",
+    "main.e23e6065.css.map": "/impo-escobedo-lagos/static/css/main.e23e6065.css.map",
+    "main.2ce5a683.js.map": "/impo-escobedo-lagos/static/js/main.2ce5a683.js.map",
+    "453.288b1486.chunk.js.map": "/impo-escobedo-lagos/static/js/453.288b1486.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e23e6065.css",
+    "static/js/main.2ce5a683.js"
+  ]
+}
