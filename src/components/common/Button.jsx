@@ -9,9 +9,9 @@ export const Button = ({
   const baseStyles = 'px-8 py-3 rounded-lg font-semibold transition-colors';
   
   const variants = {
-    primary: 'bg-white text-blue-900 hover:bg-blue-50',
-    secondary: 'border-2 border-white text-white hover:bg-white hover:text-blue-900',
-    outline: 'border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white'
+    primary: 'bg-white text-cyan-600 hover:bg-cyan-50',
+    secondary: 'border-2 border-white text-white hover:bg-white hover:text-cyan-600',
+    outline: 'border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-600 hover:text-white'
   };
 
   return (

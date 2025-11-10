@@ -30,7 +30,7 @@ export const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-blue-900 mb-4">Nuestros Servicios</h2>
+          <h2 className="text-4xl font-bold text-cyan-600 mb-4">Nuestros Servicios</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Soluciones integrales para todas tus necesidades de comercio exterior
           </p>
@@ -39,7 +39,7 @@ export const Services = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <Card key={index} delay={index * 0.2}>
-              <div className="text-blue-900 mb-4">{service.icon}</div>
+              <div className="text-cyan-600 mb-4">{service.icon}</div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">{service.title}</h3>
               <p className="text-gray-600">{service.description}</p>
             </Card>

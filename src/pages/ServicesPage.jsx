@@ -48,14 +48,14 @@ export const ServicesPage = () => {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-900 to-gray-800 text-white py-20">
+      <section className="bg-gradient-to-br from-cyan-500 to-blue-500 text-white py-20">
         <div className="container mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <h1 className="text-5xl font-bold mb-6">Nuestros Servicios</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-cyan-50 max-w-3xl mx-auto">
               Soluciones integrales de comercio exterior diseñadas para impulsar tu negocio a nivel internacional
             </p>
           </motion.div>
@@ -77,7 +77,7 @@ export const ServicesPage = () => {
               >
                 <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
                   <div>
-                    <div className="text-blue-900 mb-6">{service.icon}</div>
+                    <div className="text-cyan-600 mb-6">{service.icon}</div>
                     <h2 className="text-3xl font-bold text-gray-800 mb-4">{service.title}</h2>
                     <p className="text-gray-600 text-lg mb-6">{service.description}</p>
                   </div>
@@ -85,7 +85,7 @@ export const ServicesPage = () => {
                     <ul className="space-y-4">
                       {service.features.map((feature, i) => (
                         <li key={i} className="flex items-start">
-                          <span className="text-blue-900 mr-3 text-xl">✓</span>
+                          <span className="text-cyan-600 mr-3 text-xl">✓</span>
                           <span className="text-gray-700">{feature}</span>
                         </li>
                       ))}
@@ -101,11 +101,11 @@ export const ServicesPage = () => {
       {/* Benefits */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-blue-900 mb-12">¿Por qué elegirnos?</h2>
+          <h2 className="text-4xl font-bold text-center text-cyan-600 mb-12">¿Por qué elegirnos?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <Card key={index} delay={index * 0.1} className="text-center">
-                <div className="text-blue-900 flex justify-center mb-4">
+                <div className="text-cyan-600 flex justify-center mb-4">
                   {benefit.icon}
                 </div>
                 <p className="text-lg font-semibold text-gray-800">{benefit.text}</p>

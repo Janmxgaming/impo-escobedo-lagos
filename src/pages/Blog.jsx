@@ -1,69 +1,52 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileText, Calendar, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Calendar, AlertCircle } from 'lucide-react';
 
 export const Blog = () => {
-  const posts = [
-    {
-      id: 1,
-      title: "Tips para tu Primera Importación",
-      excerpt: "Guía completa para empresarios que inician en el comercio internacional. Aprende los pasos esenciales.",
-      date: "15 Oct 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Guías"
-    },
-    {
-      id: 2,
-      title: "Tratados Internacionales Clave para México",
-      excerpt: "Conoce los acuerdos comerciales más importantes que benefician a tu negocio y cómo aprovecharlos.",
-      date: "10 Oct 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Comercio"
-    },
-    {
-      id: 3,
-      title: "Optimiza tu Logística Aduanal",
-      excerpt: "Estrategias probadas para reducir costos y tiempos en procesos aduaneros sin comprometer la calidad.",
-      date: "5 Oct 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Logística"
-    },
-    {
-      id: 4,
-      title: "Documentación Esencial en Exportaciones",
-      excerpt: "Lista completa de documentos necesarios para exportar sin contratiempos legales o administrativos.",
-      date: "28 Sep 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Guías"
-    },
-    {
-      id: 5,
-      title: "Tendencias en Comercio Internacional 2024",
-      excerpt: "Descubre las nuevas tendencias que están transformando el comercio global este año.",
-      date: "20 Sep 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Tendencias"},
-    {
-      id: 6,
-      title: "Cómo Elegir el Mejor Incoterm para tu Operación",
-      excerpt: "Guía práctica para seleccionar el término de comercio internacional más conveniente según tu negocio.",
-      date: "12 Sep 2024",
-      author: "Equipo Impo Escobedo",
-      category: "Comercio"
-    }
-  ];
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/news`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Asegurar que data es un array
+          setPosts(Array.isArray(data) ? data : []);
+        } else {
+          setError('No se pudieron cargar las noticias');
+          setPosts([]);
+        }
+      } catch (error) {
+        console.error('Error al cargar noticias:', error);
+        setError('Error de conexión con el servidor');
+        setPosts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [API_URL]);
 
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-gray-800 text-white py-20">
+      <section className="bg-gradient-to-br from-cyan-500 to-blue-500 text-white py-20">
         <div className="container mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-5xl font-bold mb-6">Blog y Noticias</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <h1 className="text-5xl font-bold mb-6">Noticias</h1>
+            <p className="text-xl text-cyan-50 max-w-3xl mx-auto">
               Mantente actualizado con las últimas tendencias, tips y noticias del comercio internacional
             </p>
           </motion.div>
@@ -73,39 +56,76 @@ export const Blog = () => {
       {/* Posts Grid */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post, index) => (
-              <motion.article
-                key={post.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="h-48 bg-gradient-to-br from-blue-900 to-gray-700"></div>
-                <div className="p-6">
-                  <span className="text-xs font-semibold text-blue-900 bg-blue-100 px-3 py-1 rounded-full">
-                    {post.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-gray-800 mt-4 mb-3">{post.title}</h3>
-                  <p className="text-gray-600 mb-4">{post.excerpt}</p>
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Cargando noticias...</p>
+            </div>
+          ) : error ? (
+            <div className="max-w-md mx-auto bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+              <div className="flex items-center">
+                <AlertCircle className="h-6 w-6 text-red-500 mr-3" />
+                <p className="text-red-700">{error}</p>
+              </div>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No hay noticias publicadas aún.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.map((post, index) => (
+                <motion.article
+                  key={post._id}
+                  onClick={() => navigate(`/blog/${post._id}`)}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  {/* Imagen de la noticia */}
+                  {post.imageUrl ? (
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.parentElement.innerHTML = '<div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-500"></div>';
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-48 bg-gradient-to-br from-cyan-500 to-blue-500"></div>
+                  )}
                   
-                  <div className="flex items-center justify-between text-sm text-gray-500 border-t pt-4">
-                    <div className="flex items-center space-x-4">
+                  <div className="p-6">
+                    <span className="text-xs font-semibold text-cyan-700 bg-cyan-50 px-3 py-1 rounded-full">
+                      {post.category}
+                    </span>
+                    <h3 className="text-xl font-bold text-gray-800 mt-4 mb-3">{post.title}</h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                    
+                    <div className="flex items-center justify-between text-sm text-gray-500 border-t pt-4">
                       <div className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
-                        {post.date}
+                        {new Date(post.createdAt).toLocaleDateString('es-MX', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
                       </div>
+                      <span className="text-cyan-600 font-semibold hover:underline">
+                        Leer más →
+                      </span>
                     </div>
-                    <Link to={`/blog/${post.id}`} className="text-blue-900 font-semibold hover:underline">
-                      Leer más →
-                    </Link>
                   </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+                </motion.article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

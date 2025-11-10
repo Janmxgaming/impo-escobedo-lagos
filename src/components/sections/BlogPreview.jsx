@@ -33,7 +33,7 @@ export const BlogPreview = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-blue-900 mb-4">Blog y Noticias</h2>
+          <h2 className="text-4xl font-bold text-cyan-600 mb-4">Noticias</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Mantente actualizado sobre comercio exterior y tendencias internacionales
           </p>
@@ -43,7 +43,7 @@ export const BlogPreview = () => {
           {posts.map((post, index) => (
             <motion.article
               key={post.id}
-              className="border border-gray-200 rounded-xl p-6 hover:border-blue-900 transition-colors cursor-pointer"
+              className="border border-gray-200 rounded-xl p-6 hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-500/20 transition-all cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -56,7 +56,7 @@ export const BlogPreview = () => {
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">{post.title}</h3>
               <p className="text-gray-600 mb-4">{post.excerpt}</p>
-              <Link to={`/blog/${post.id}`} className="text-blue-900 font-semibold hover:underline">
+              <Link to={`/blog/${post.id}`} className="text-cyan-600 font-semibold hover:underline">
                 Leer más →
               </Link>
             </motion.article>

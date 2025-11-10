@@ -1,19 +1,25 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { DolphinLogo } from '../common/DolphinLogo';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
   
   const navItems = [
     { name: 'Inicio', path: '/' },
     { name: 'Servicios', path: '/servicios' },
     { name: 'Nosotros', path: '/nosotros' },
-    { name: 'Blog', path: '/blog' },
+    { name: 'Noticias', path: '/blog' },
     { name: 'Contacto', path: '/contacto' }
   ];
+
+  // Scroll al inicio al cambiar de página
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <header className="bg-white/90 backdrop-blur-sm shadow-md fixed w-full top-0 z-50">
@@ -24,12 +30,12 @@ export const Header = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <div className="text-blue-900 flex items-center">
-              <DolphinLogo className="w-12 h-12 ring-1 ring-blue-300 rounded-full" />
+            <div className="text-cyan-600 flex items-center">
+              <DolphinLogo className="w-12 h-12 ring-1 ring-cyan-300 rounded-full" />
             </div>
             <Link to="/">
               <div>
-                <h1 className="text-xl font-bold text-blue-900">Impo Escobedo de Lagos</h1>
+                <h1 className="text-xl font-bold text-cyan-600">Impo Escobedo de Lagos</h1>
               </div>
             </Link>
           </motion.div>
@@ -45,7 +51,16 @@ export const Header = () => {
               >
                 <Link
                   to={item.path}
-                  className="text-gray-700 hover:text-blue-900 transition-colors"
+                  className={`
+                    relative px-4 py-2 rounded-lg font-medium transition-all duration-300
+                    ${location.pathname === item.path 
+                      ? 'text-white bg-gradient-to-br from-cyan-500 to-blue-500 shadow-lg shadow-cyan-500/50 translate-y-[-2px]' 
+                      : 'text-gray-700 hover:text-white hover:bg-gradient-to-br hover:from-cyan-400 hover:to-blue-400 hover:shadow-lg hover:shadow-cyan-400/40 hover:translate-y-[-2px]'
+                    }
+                  `}
+                  style={{
+                    transformStyle: 'preserve-3d',
+                  }}
                 >
                   {item.name}
                 </Link>
@@ -73,7 +88,13 @@ export const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className="block text-gray-700 hover:text-blue-900 py-2"
+                className={`
+                  block py-2 px-4 rounded-lg transition-all duration-300
+                  ${location.pathname === item.path 
+                    ? 'text-white bg-gradient-to-br from-cyan-500 to-blue-500 shadow-md' 
+                    : 'text-gray-700 hover:text-white hover:bg-gradient-to-br hover:from-cyan-400 hover:to-blue-400'
+                  }
+                `}
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}

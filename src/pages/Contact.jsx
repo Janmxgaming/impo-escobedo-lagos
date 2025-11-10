@@ -11,12 +11,49 @@ export const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí irá la lógica para enviar el formulario
-    console.log('Form submitted:', formData);
-    alert('Mensaje enviado! Te contactaremos pronto.');
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      // URL del backend - Cambiar cuando despliegues el backend
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: '✅ Mensaje enviado correctamente! Te contactaremos pronto.' 
+        });
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        setSubmitStatus({ 
+          type: 'error', 
+          message: '❌ ' + data.message 
+        });
+      }
+    } catch (error) {
+      console.error('Error al enviar:', error);
+      setSubmitStatus({ 
+        type: 'error', 
+        message: '❌ Error al enviar el mensaje. Verifica que el servidor esté funcionando.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -29,14 +66,14 @@ export const Contact = () => {
   return (
     <div className="pt-20">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-gray-800 text-white py-20">
+      <section className="bg-gradient-to-br from-cyan-500 to-blue-500 text-white py-20">
         <div className="container mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <h1 className="text-5xl font-bold mb-6">Contacto</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-cyan-50 max-w-3xl mx-auto">
               ¿Listo para expandir tu negocio? Estamos aquí para ayudarte
             </p>
           </motion.div>
@@ -52,7 +89,7 @@ export const Contact = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <h2 className="text-4xl font-bold text-blue-900 mb-6">
+              <h2 className="text-4xl font-bold text-cyan-600 mb-6">
                 Hablemos de tu Proyecto
               </h2>
               <p className="text-gray-600 text-lg mb-8">
@@ -62,7 +99,7 @@ export const Contact = () => {
 
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-900 text-white p-3 rounded-lg">
+                  <div className="bg-cyan-500 text-white p-3 rounded-lg">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
@@ -72,7 +109,7 @@ export const Contact = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-900 text-white p-3 rounded-lg">
+                  <div className="bg-cyan-500 text-white p-3 rounded-lg">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
@@ -82,7 +119,7 @@ export const Contact = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-900 text-white p-3 rounded-lg">
+                  <div className="bg-cyan-500 text-white p-3 rounded-lg">
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
@@ -124,7 +161,7 @@ export const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
                       placeholder="Tu nombre"
                     />
                   </div>
@@ -140,7 +177,7 @@ export const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
                       placeholder="tu@email.com"
                     />
                   </div>
@@ -155,7 +192,7 @@ export const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
                       placeholder="(474) 123-4567"
                     />
                   </div>
@@ -171,7 +208,7 @@ export const Contact = () => {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
                       placeholder="Cuéntanos sobre tu proyecto..."
                     />
                   </div>
@@ -180,10 +217,24 @@ export const Contact = () => {
                     type="submit" 
                     variant="outline" 
                     className="w-full flex items-center justify-center space-x-2"
+                    disabled={isSubmitting}
                   >
-                    <span>Enviar Mensaje</span>
+                    <span>{isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}</span>
                     <Send className="w-4 h-4" />
                   </Button>
+
+                  {/* Mensaje de estado */}
+                  {submitStatus.message && (
+                    <div className={`
+                      p-4 rounded-lg text-center font-medium
+                      ${submitStatus.type === 'success' 
+                        ? 'bg-green-100 text-green-800 border border-green-300' 
+                        : 'bg-red-100 text-red-800 border border-red-300'
+                      }
+                    `}>
+                      {submitStatus.message}
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-sm text-gray-500 mt-4">

@@ -29,7 +29,7 @@ export const Footer = () => {
             <h4 className="font-bold text-white mb-4">Empresa</h4>
             <ul className="space-y-2 text-sm">
               <li><Link to="/nosotros" className="hover:text-white">Nosotros</Link></li>
-              <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
+              <li><Link to="/blog" className="hover:text-white">Noticias</Link></li>
               <li><Link to="/contacto" className="hover:text-white">Contacto</Link></li>
             </ul>
           </div>

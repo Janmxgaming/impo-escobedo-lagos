@@ -13,7 +13,7 @@ export const Hero = () => {
     alt="Puerto con contenedores"
     className="w-full h-full object-cover"
       />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-blue-800/45 to-gray-900/75"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/45 via-cyan-500/50 to-blue-600/55"></div>
       </div>
 
       {/* Content */}

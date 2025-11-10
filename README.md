@@ -1,4 +1,123 @@
-# Getting Started with Create React App
+# Impo Escobedo de Lagos
+
+Sitio web corporativo para servicios de importaciones, exportaciones y asesoría logística aduanal.
+
+## 🚀 Inicio Rápido
+
+### Frontend (React)
+
+```bash
+npm install
+npm start
+```
+
+El sitio se abrirá en [http://localhost:3000](http://localhost:3000)
+
+### Backend (API de Contacto)
+
+**IMPORTANTE**: Para que el formulario de contacto funcione, necesitas iniciar el backend.
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+El servidor API correrá en [http://localhost:5000](http://localhost:5000)
+
+📧 **Ver instrucciones completas de configuración del email**: [CONFIGURACION_EMAIL.md](./CONFIGURACION_EMAIL.md)
+
+---
+
+## 📂 Estructura del Proyecto
+
+```
+impo-escobedo-lagos/
+├── src/                    # Código del frontend (React)
+│   ├── components/         # Componentes reutilizables
+│   ├── pages/             # Páginas de la aplicación
+│   └── ...
+├── server/                # Backend (Node.js + Express)
+│   ├── server.js          # Servidor API
+│   ├── .env               # Variables de entorno (NO subir a Git)
+│   └── package.json
+├── public/                # Archivos estáticos
+└── build/                 # Build de producción
+```
+
+---
+
+## 🛠️ Scripts Disponibles
+
+### Frontend
+
+- `npm start` - Inicia el servidor de desarrollo
+- `npm run build` - Compila para producción
+- `npm test` - Ejecuta los tests
+- `npm run deploy` - Despliega a GitHub Pages
+
+### Backend
+
+- `npm run dev` - Inicia con auto-reload (desarrollo)
+- `npm start` - Inicia en modo producción
+
+---
+
+## 📧 Sistema de Contacto
+
+El formulario de contacto envía emails automáticamente usando:
+- **Backend**: Node.js + Express + Nodemailer
+- **Email**: Configurado para Gmail/Hotmail
+- **Destino**: juriesco2013@hotmail.com
+
+### Configuración Rápida
+
+1. Edita `server/.env` con tus credenciales de email
+2. Inicia el backend: `cd server && npm run dev`
+3. Inicia el frontend: `npm start`
+4. Prueba el formulario en `/contacto`
+
+**Ver guía completa**: [CONFIGURACION_EMAIL.md](./CONFIGURACION_EMAIL.md)
+
+---
+
+## 🌐 Despliegue
+
+### Frontend (GitHub Pages)
+
+```bash
+npm run deploy
+```
+
+### Backend (Render.com - GRATIS)
+
+1. Crea cuenta en https://render.com
+2. New Web Service → Conecta tu repo
+3. Root Directory: `server`
+4. Build: `npm install`
+5. Start: `npm start`
+6. Agrega variables de entorno (EMAIL_USER, EMAIL_PASS, EMAIL_RECEIVER)
+
+---
+
+## 🎨 Tecnologías
+
+- **Frontend**: React, Tailwind CSS, Framer Motion, React Router
+- **Backend**: Node.js, Express, Nodemailer
+- **Iconos**: Lucide React
+- **Despliegue**: GitHub Pages (frontend), Render (backend)
+
+---
+
+## 📝 Notas
+
+- Los archivos `.env` están en `.gitignore` por seguridad
+- El backend debe estar corriendo para que funcione el formulario de contacto
+- En producción, actualiza `REACT_APP_API_URL` con la URL del backend desplegado
+
+---
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
