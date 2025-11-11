@@ -34,9 +34,11 @@ const newsRoutes = require('./routes/news');
 app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
 
-// Configuración de Nodemailer para Gmail
+// Configuración de Nodemailer para Gmail con puerto 465 (SSL)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // true para puerto 465, false para otros puertos
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS // Contraseña de aplicación de Gmail
