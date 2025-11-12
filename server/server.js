@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+
+// Configurar SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,23 +37,12 @@ const newsRoutes = require('./routes/news');
 app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
 
-// Configuración de Nodemailer para Gmail con puerto 465 (SSL)
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // true para puerto 465, false para otros puertos
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS // Contraseña de aplicación de Gmail
-  }
-});
-
 // Ruta para verificar que el servidor está funcionando
 app.get('/', (req, res) => {
   res.send('Backend de Impo Escobedo de Lagos funcionando correctamente ✅');
 });
 
-// Ruta para enviar email de contacto
+// Ruta para enviar email de contacto con SendGrid
 app.post('/api/contact', async (req, res) => {
   const { name, email, phone, message } = req.body;
 
@@ -62,10 +54,11 @@ app.post('/api/contact', async (req, res) => {
     });
   }
 
-  // Configurar el contenido del email
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_RECEIVER, // Email del licenciado donde llegará el mensaje
+  // Configurar el email con SendGrid
+  const msg = {
+    to: process.env.EMAIL_RECEIVER, // Email del licenciado
+    from: process.env.EMAIL_USER, // Tu email verificado en SendGrid
+    replyTo: email, // Email del cliente para poder responder
     subject: `Nuevo mensaje de contacto - ${name}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -92,13 +85,12 @@ app.post('/api/contact', async (req, res) => {
           Este mensaje fue enviado desde el formulario de contacto de la página web de Impo Escobedo de Lagos
         </p>
       </div>
-    `,
-    replyTo: email // Permite responder directamente al cliente
+    `
   };
 
   try {
-    // Enviar el email
-    await transporter.sendMail(mailOptions);
+    // Enviar el email con SendGrid
+    await sgMail.send(msg);
     
     res.status(200).json({ 
       success: true, 
